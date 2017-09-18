@@ -29,7 +29,25 @@ init =
 
 subscriptions : Presentation -> Sub Msg
 subscriptions presentation =
-    Sub.batch
-        [ AnimationFrame.diffs TimeUpdate
-        , Keyboard.downs KeyDown
+    Sub.batch <|
+        [ Keyboard.downs KeyDown
         ]
+            ++ (animationSubs presentation)
+
+
+animationSubs : Presentation -> List (Sub Msg)
+animationSubs presentation =
+    case ( presentation.position, presentation.viewState ) of
+        ( At _, Models.Hidden ) ->
+            []
+
+        ( At _, Models.Visible ) ->
+            []
+
+        _ ->
+            [ AnimationFrame.diffs TimeUpdate ]
+
+
+type ViewState
+    = Visible
+    | Hidden
