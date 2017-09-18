@@ -3,11 +3,12 @@ module Present exposing (..)
 import Html exposing (Html)
 import Models exposing (..)
 import Updates exposing (..)
+import Views exposing (view)
 import AnimationFrame
 import Keyboard
 
 
-main : Program Never Model Msg
+main : Program Never Presentation Msg
 main =
     Html.program
         { init = init
@@ -17,7 +18,7 @@ main =
         }
 
 
-init : ( Model, Cmd Msg )
+init : ( Presentation, Cmd Msg )
 init =
     ( initialModel, Cmd.none )
 
@@ -26,8 +27,8 @@ init =
 -- SUBSCRIPTIONS
 
 
-subscriptions : Model -> Sub Msg
-subscriptions model =
+subscriptions : Presentation -> Sub Msg
+subscriptions presentation =
     Sub.batch
         [ AnimationFrame.diffs TimeUpdate
         , Keyboard.downs KeyDown

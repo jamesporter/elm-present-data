@@ -1,39 +1,13 @@
-# elm-webpack-game-quarter
+# elm-present-data
 
+An example of presenting data with Elm
 
-## About this project
-A minimalist Elm Game together with Webpack and gulp tooling to easily develop, build for production and deploy to S3 with static site hosting (assuming subdomain configured)
+### Deps
 
-Fork this to get up and running with creating a minimalist game in Elm (without having to figure out all the tedious details around production builds + deploys)
-
-## Quarter Past
-
-Quarter Past is a simple game of coordination, skill and not panicking.
-
-It is written in Elm 0.18.
-
-Inspired/adapted from [an article](http://ohanhi.github.io/base-for-game-elm-017.html).
-
-But that article didn't really include an actual working game or the kinds of performance optimistation necessary for good performance on mobile.
-
-E.g. on selecting a cell, don't cause DOM change, do those on the animation frame
-
-    selectCell : Cell -> Model -> Model
-    selectCell cell model =
-        { model | pendingCell = Just cell }
-
-then when doing update on animation frame include:
-
-                    , cell =
-                        case model.pendingCell of
-                            Just c ->
-                                c
-
-                            Nothing ->
-                                model.cell
-                    , pendingCell = Nothing
-
-i.e. set new state + clear the pending/requested change.
+```
+npm i
+elm-package install
+```
 
 ### Serve locally:
 ```

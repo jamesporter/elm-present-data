@@ -1,6 +1,6 @@
 module Models exposing (..)
 
-import Array exposing (Array)
+import Array exposing (Array, get)
 
 
 type Slide
@@ -25,3 +25,12 @@ type alias Presentation =
     , viewState : ViewState
     , slides : Array Slide
     }
+
+
+
+-- slides : Presentation -> List ( Slide, Float )
+-- slides { position, slides } =
+--     case position of
+--         At n ->
+--             List.filterMap identity [ get n slides ]
+--             |> List.map ()
