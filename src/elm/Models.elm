@@ -27,12 +27,7 @@ slides { position, slides } =
                 slide =
                     get n slides
             in
-                case slide of
-                    Nothing ->
-                        []
-
-                    Just s ->
-                        [ ( s, 0.0 ) ]
+                cleanSlides [ ( slide, 0.0 ) ]
 
         Forward from to progress ->
             cleanSlides
@@ -43,7 +38,7 @@ slides { position, slides } =
         Backward from to progress ->
             cleanSlides
                 [ ( get from slides, progress )
-                , ( get to slides, 1.0 - progress )
+                , ( get to slides, progress - 1.0 )
                 ]
 
 
@@ -59,3 +54,23 @@ cleanSlides rawSlides =
                     Nothing
         )
         rawSlides
+
+
+progress : Presentation -> Float
+progress { position, slides } =
+    let
+        total =
+            (toFloat <| Array.length slides)
+
+        current =
+            case position of
+                At n ->
+                    toFloat <| n + 1
+
+                Forward from _ progress ->
+                    (toFloat from) + 1.0 + progress
+
+                Backward from _ progress ->
+                    (toFloat from) + 1.0 - progress
+    in
+        current / total

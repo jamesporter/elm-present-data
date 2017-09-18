@@ -1,9 +1,9 @@
 module Updates exposing (..)
 
 import Models exposing (Presentation, Position(..), Slide(..))
+import SlideShow exposing (slideShow)
 import Time exposing (Time)
 import Keyboard exposing (KeyCode)
-import Array exposing (fromList)
 
 
 type Msg
@@ -24,7 +24,7 @@ update msg presentation =
 initialModel : Presentation
 initialModel =
     { position = At 0
-    , slides = fromList [ Simple "Elm Data" "James Porter", Simple "Follow Me" "@complexview" ]
+    , slides = slideShow
     }
 
 
@@ -72,7 +72,18 @@ keyDown keyCode presentation =
 
         -- Left
         37 ->
-            presentation
+            case presentation.position of
+                At n ->
+                    if n > 0 then
+                        { presentation | position = Backward n (n - 1) 0.0 }
+                    else
+                        presentation
+
+                Backward _ _ _ ->
+                    presentation
+
+                Forward from to progress ->
+                    { presentation | position = Backward to from (1.0 - progress) }
 
         -- Right
         39 ->
