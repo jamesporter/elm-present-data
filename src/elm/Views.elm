@@ -27,7 +27,7 @@ viewSlide slide position =
 
 transformSpec : Float -> String
 transformSpec amount =
-    "translate(" ++ (toString (amount * 100)) ++ "%, 0%)"
+    "translate(" ++ (toString (amount * 100)) ++ "vw, 0%)"
 
 
 progressView : Presentation -> Html Msg
