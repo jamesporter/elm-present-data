@@ -99,7 +99,7 @@ keyDown keyCode presentation =
 
         -- Esc
         27 ->
-            presentation
+            { presentation | position = At 0 }
 
         _ ->
             presentation
