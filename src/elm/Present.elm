@@ -37,17 +37,9 @@ subscriptions presentation =
 
 animationSubs : Presentation -> List (Sub Msg)
 animationSubs presentation =
-    case ( presentation.position, presentation.viewState ) of
-        ( At _, Models.Hidden ) ->
-            []
-
-        ( At _, Models.Visible ) ->
+    case presentation.position of
+        At _ ->
             []
 
         _ ->
             [ AnimationFrame.diffs TimeUpdate ]
-
-
-type ViewState
-    = Visible
-    | Hidden

@@ -13,24 +13,49 @@ type Position
     | Backward Int Int Float
 
 
-type ViewState
-    = Visible
-    | Hidden
-    | Intro Float
-    | Outro Float
-
-
 type alias Presentation =
     { position : Position
-    , viewState : ViewState
     , slides : Array Slide
     }
 
 
+slides : Presentation -> List ( Slide, Float )
+slides { position, slides } =
+    case position of
+        At n ->
+            let
+                slide =
+                    get n slides
+            in
+                case slide of
+                    Nothing ->
+                        []
 
--- slides : Presentation -> List ( Slide, Float )
--- slides { position, slides } =
---     case position of
---         At n ->
---             List.filterMap identity [ get n slides ]
---             |> List.map ()
+                    Just s ->
+                        [ ( s, 0.0 ) ]
+
+        Forward from to progress ->
+            cleanSlides
+                [ ( get from slides, -progress )
+                , ( get to slides, 1.0 - progress )
+                ]
+
+        Backward from to progress ->
+            cleanSlides
+                [ ( get from slides, progress )
+                , ( get to slides, 1.0 - progress )
+                ]
+
+
+cleanSlides : List ( Maybe Slide, Float ) -> List ( Slide, Float )
+cleanSlides rawSlides =
+    List.filterMap
+        (\( rs, f ) ->
+            case rs of
+                Just s ->
+                    Just ( s, f )
+
+                Nothing ->
+                    Nothing
+        )
+        rawSlides
