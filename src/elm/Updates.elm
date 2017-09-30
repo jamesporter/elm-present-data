@@ -32,7 +32,7 @@ prev presentation =
     case presentation.position of
         At n ->
             if n > 0 then
-                { presentation | position = Backward n (n - 1) 0.0 }
+                { presentation | position = Backward n (n - 1) 0.0, showCode = False }
             else
                 presentation
 
@@ -48,7 +48,7 @@ next presentation =
     case presentation.position of
         At n ->
             if n + 1 < length presentation.slides then
-                { presentation | position = Forward n (n + 1) 0.0 }
+                { presentation | position = Forward n (n + 1) 0.0, showCode = False }
             else
                 presentation
 

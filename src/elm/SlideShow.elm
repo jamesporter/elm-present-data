@@ -15,10 +15,15 @@ asHtml content =
 slideShow : Array.Array Slide
 slideShow =
     fromList
-        [ WithCode (asHtml """
+        [ Simple (asHtml """
 # Elm Data
 
 ## James Porter
+
+Follow me @complexview
+""")
+        , WithCode (asHtml """
+# This is Elm
 
 Follow me @complexview
 """) """
@@ -33,10 +38,10 @@ type Slide
 
 * you
 * are
-        """) """
-        Some example
-        source code
-        text...
-        let's see
+""") """
+Some example
+source code
+text...
+let's see
         """
         ]
