@@ -59,6 +59,19 @@ next presentation =
             { presentation | position = Forward to from (1.0 - progress) }
 
 
+fastForward : Presentation -> Presentation
+fastForward presentation =
+    case presentation.position of
+        At n ->
+            if n + 5 < length presentation.slides then
+                { presentation | position = At (n + 5) }
+            else
+                { presentation | position = At (length presentation.slides - 1) }
+
+        _ ->
+            presentation
+
+
 toggleCode : Presentation -> Presentation
 toggleCode presentation =
     { presentation | showCode = not presentation.showCode }
@@ -113,6 +126,9 @@ keyDown keyCode presentation =
         -- C
         67 ->
             toggleCode presentation
+
+        13 ->
+            fastForward presentation
 
         _ ->
             presentation

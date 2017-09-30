@@ -31,7 +31,7 @@ slideShow =
 
 ## James Porter
 
-Follow me *@complexview*
+@complexview
 """
         , withCode """
 # This is Elm
@@ -39,10 +39,25 @@ Follow me *@complexview*
 All the slides are in Elm (most with Markdown)
 
 [elm-data.amimetic.co.uk](http://elm-data.amimetic.co.uk)
+
+(Datavis, making a game and making a slide show framework all great ways to learn Elm.)
 """ """
 type Slide
     = Simple (Html Msg)
     | WithCode (Html Msg) String
+
+--Elm Markdown
+import Markdown exposing (toHtml)
+
+--simplify
+asHtml : String -> Html Msg
+
+--make it ergonomic for easy slides
+simple : String -> Slide
+
+withCode : String -> String -> Slide
+withCode md code =
+    WithCode (asHtml md) code
 """
         , withCode """
 # Transitions
@@ -78,10 +93,10 @@ container content =
 g [ strokeWidth "0.4", stroke "white" ]
 
 ((oneToNine |> List.map (
- -> line [  x1 (toString (10 * n)),
-            x2 (toString (10 * n)),
-            y1 "0",
-            y2 "100" ] []))
+ n -> line [ x1 (toString (10 * n)),
+             x2 (toString (10 * n)),
+             y1 "0",
+             y2 "100" ] []))
 """
         , WithCode (container "Circles" [ background, circles ]) """
 let
@@ -100,5 +115,62 @@ in
                     []
             )
             specs
+"""
+        , WithCode (container "Data" [ background, (data False) ]) """
+calories =
+    [ 349, 370, 488, 641, 672, 518, 832 ]
+
+caloriesWithIndex =
+    enumerated calories
+
+[...]
+
+bar value sx dx withColours =
+    rect
+        [ x (toString sx)
+        , y (toString ((toFloat (1000 - value)) / 10.0))
+        , height (toString ((toFloat (value)) / 10.0))
+        , width (toString (dx - 2.0))
+        , fill  "#64B5CA"
+        ]
+        []
+"""
+        , WithCode (container "Data II" [ background, (data True) ]) """
+colour : Int -> String
+colour value =
+    if value < 400 then
+        "#CA6464"
+    else if value < 550 then
+        "#64B5CA"
+    else
+        "#64CA7A"
+"""
+        , simple """# Generally works well
+
+* Full control (D3 style, but without dependency)
+* Type checking really helpful
+* Easy to extract functions when things become complicated
+* Particularly good for transitions (as just another part of state)
+* All usual strengths of Elm
+"""
+        , simple """# Frustrations
+* Types: low level API expects strings
+    * Could trivially create Float or Integer versions
+    * But actually probably want both (and can be encapsulated)
+    * Slower to get started
+
+"""
+        , simple """
+# Thanks
+
+## James Porter
+
+Follow me *@complexview*, for the slides:
+
+[elm-data.amimetic.co.uk](http://elm-data.amimetic.co.uk)
+
+Source code:
+
+[github.com/jamesporter/elm-present-data](https://github.com/jamesporter/elm-present-data)
 """
         ]

@@ -52,12 +52,70 @@ circles =
                 )
                 specs
 
-data : Html Msg
-data =
-  let 
-    calories = [349, 370, 488, 641, 672, 518, 832]
-    len = List.length calories
-    dx =  90.0  / (toFloat len)
-    sx = 5.0
-  in
 
+data : Bool -> Html Msg
+data withColours =
+    let
+        -- was away at weekend... lazy
+        calories =
+            [ 349, 370, 488, 641, 672, 518, 832 ]
+
+        caloriesWithIndex =
+            enumerated calories
+
+        len =
+            List.length calories
+
+        dx =
+            90.0 / (toFloat len)
+
+        sx =
+            5.0
+    in
+        g [ opacity "0.8" ] <|
+            List.map
+                (\( idx, c ) ->
+                    bar c (sx + dx * toFloat (idx)) dx withColours
+                )
+                caloriesWithIndex
+
+
+bar : Int -> Float -> Float -> Bool -> Html Msg
+bar value sx dx withColours =
+    rect
+        [ x (toString sx)
+        , y (toString ((toFloat (1000 - value)) / 10.0))
+        , height (toString ((toFloat (value)) / 10.0))
+        , width (toString (dx - 2.0))
+        , fill
+            (if withColours then
+                (colour value)
+             else
+                "#64B5CA"
+            )
+        ]
+        []
+
+
+colour : Int -> String
+colour value =
+    if value < 400 then
+        "#CA6464"
+    else if value < 550 then
+        "#64B5CA"
+    else
+        "#64CA7A"
+
+
+zip : List a -> List b -> List ( a, b )
+zip =
+    List.map2 (,)
+
+
+enumerated : List a -> List ( Int, a )
+enumerated list =
+    let
+        indexes =
+            List.range 0 ((List.length list) - 1)
+    in
+        zip indexes list
