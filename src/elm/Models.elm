@@ -1,10 +1,13 @@
 module Models exposing (..)
 
 import Array exposing (Array, get)
+import Html exposing (Html)
+import Messages exposing (Msg)
 
 
 type Slide
     = Simple String String
+    | Complex (Html Msg) (Maybe String)
 
 
 type Position
@@ -16,6 +19,7 @@ type Position
 type alias Presentation =
     { position : Position
     , slides : Array Slide
+    , showCode : Bool
     }
 
 

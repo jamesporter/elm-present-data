@@ -3,9 +3,11 @@ module Present exposing (..)
 import Html exposing (Html)
 import Models exposing (..)
 import Updates exposing (..)
+import Messages exposing (Msg(..))
 import Views exposing (view)
 import AnimationFrame
 import Keyboard
+import SlideShow exposing (slideShow)
 
 
 main : Program Never Presentation Msg
@@ -21,6 +23,14 @@ main =
 init : ( Presentation, Cmd Msg )
 init =
     ( initialModel, Cmd.none )
+
+
+initialModel : Presentation
+initialModel =
+    { position = At 0
+    , slides = slideShow
+    , showCode = False
+    }
 
 
 

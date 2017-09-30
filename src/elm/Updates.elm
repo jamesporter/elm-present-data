@@ -1,14 +1,9 @@
 module Updates exposing (..)
 
 import Models exposing (Presentation, Position(..), Slide(..))
-import SlideShow exposing (slideShow)
 import Time exposing (Time)
 import Keyboard exposing (KeyCode)
-
-
-type Msg
-    = TimeUpdate Time
-    | KeyDown KeyCode
+import Messages exposing (Msg(..))
 
 
 update : Msg -> Presentation -> ( Presentation, Cmd Msg )
@@ -21,18 +16,11 @@ update msg presentation =
             ( keyDown keyCode presentation, Cmd.none )
 
 
-initialModel : Presentation
-initialModel =
-    { position = At 0
-    , slides = slideShow
-    }
-
-
 timeUpdate : Time -> Presentation -> Presentation
 timeUpdate time presentation =
     let
         ds =
-            Time.inSeconds time
+            2.0 * Time.inSeconds time
     in
         case presentation.position of
             At n ->
@@ -100,6 +88,9 @@ keyDown keyCode presentation =
         -- Esc
         27 ->
             { presentation | position = At 0 }
+
+        67 ->
+            { presentation | showCode = not presentation.showCode }
 
         _ ->
             presentation

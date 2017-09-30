@@ -3,7 +3,7 @@ module Views exposing (..)
 import Html exposing (Html, div, h1, h2, text)
 import Html.Attributes exposing (class, style)
 import Models exposing (Presentation, Slide(..), slides, progress)
-import Updates exposing (Msg)
+import Messages exposing (Msg(..))
 
 
 view : Presentation -> Html Msg
@@ -20,26 +20,33 @@ view presentation =
 
 viewSlide : Slide -> Float -> Html Msg
 viewSlide slide position =
-    case slide of
-        Simple title secondary ->
-            div [ class "slide", style [ ( "transform", transformSpec position ), ( "opacity", opacitySpec position ) ] ] [ h1 [] [ text title ], h2 [] [ text secondary ] ]
+    let
+        containerStyle =
+            [ ( "transform", transformSpec position ), ( "opacity", opacitySpec position ) ]
+    in
+        case slide of
+            Simple title secondary ->
+                div [ class "slide", style containerStyle ] [ h1 [] [ text title ], h2 [] [ text secondary ] ]
+
+            Complex content _ ->
+                div [ class "slide", style containerStyle ] [ content ]
 
 
 transformSpec : Float -> String
 transformSpec amount =
-    "translate(" ++ (toString (amount * 100)) ++ "vw, 0%)"
+    let
+        scale =
+            toString <| 0.8 + 0.2 * (1.0 - (abs amount))
+
+        translate =
+            toString (amount * 100)
+    in
+        "translate(" ++ translate ++ "vw, 0%) scale(" ++ scale ++ ")"
 
 
 opacitySpec : Float -> String
 opacitySpec amount =
-    let
-        aba =
-            1.0 - (abs amount)
-
-        abat =
-            clamp 0.0 1.0 (2.0 * (aba - 0.5))
-    in
-        toString abat
+    toString <| 1.0 - (abs amount)
 
 
 progressView : Presentation -> Html Msg
