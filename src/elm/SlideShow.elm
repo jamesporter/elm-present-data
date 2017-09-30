@@ -12,33 +12,43 @@ asHtml content =
     toHtml [] content
 
 
+simple : String -> Slide
+simple md =
+    Simple (asHtml md)
+
+
+withCode : String -> String -> Slide
+withCode md code =
+    WithCode (asHtml md) code
+
+
 slideShow : Array.Array Slide
 slideShow =
     fromList
-        [ Simple (asHtml """
+        [ simple """
 # Elm Data
 
 ## James Porter
 
 Follow me @complexview
-""")
-        , WithCode (asHtml """
+"""
+        , withCode """
 # This is Elm
 
 Follow me @complexview
-""") """
+""" """
 type Slide
     = Simple (Html Msg)
     | WithCode (Html Msg) String
 """
-        , WithCode (asHtml """
+        , withCode """
 # Hi there
 
 ## ho ho
 
 * you
 * are
-""") """
+""" """
 Some example
 source code
 text...
