@@ -78,3 +78,29 @@ progress { position, slides } =
                     (toFloat from) + 1.0 - progress
     in
         current / total
+
+
+{-| Get code for current slide, if at a slide and that slide has code
+-}
+getCodeForSlideIfAt : Presentation -> Maybe String
+getCodeForSlideIfAt presentation =
+    case ( presentation.position, presentation.showCode ) of
+        ( At n, True ) ->
+            let
+                slide =
+                    get n presentation.slides
+            in
+                case slide of
+                    Just s ->
+                        case s of
+                            WithCode _ code ->
+                                Just code
+
+                            _ ->
+                                Nothing
+
+                    Nothing ->
+                        Nothing
+
+        _ ->
+            Nothing

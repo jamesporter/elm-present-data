@@ -3,7 +3,7 @@ module Views exposing (..)
 import Html exposing (Html, div, h1, h2, h3, pre, text)
 import Html.Attributes exposing (class, style, id)
 import Html.Events exposing (onClick)
-import Models exposing (Presentation, Slide(..), slides, progress)
+import Models exposing (Presentation, Slide(..), slides, progress, getCodeForSlideIfAt)
 import Messages exposing (Msg(..))
 
 
@@ -79,13 +79,16 @@ progressView presentation =
 
 codeView : Presentation -> Html Msg
 codeView presentation =
-    if presentation.showCode then
-        div [ id "code" ] [ pre [] [ text """test
-  that this
-    will work
-        """ ] ]
-    else
-        text ""
+    let
+        code =
+            getCodeForSlideIfAt presentation
+    in
+        case code of
+            Just code ->
+                div [ id "code" ] [ pre [] [ text code ] ]
+
+            Nothing ->
+                text ""
 
 
 widthSpec : Float -> String

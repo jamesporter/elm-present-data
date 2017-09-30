@@ -15,13 +15,17 @@ asHtml content =
 slideShow : Array.Array Slide
 slideShow =
     fromList
-        [ Simple (asHtml """
+        [ WithCode (asHtml """
 # Elm Data
 
 ## James Porter
 
 Follow me @complexview
-""")
+""") """
+type Slide
+    = Simple (Html Msg)
+    | WithCode (Html Msg) String
+"""
         , WithCode (asHtml """
 # Hi there
 
