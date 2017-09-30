@@ -12,22 +12,27 @@ asHtml content =
     toHtml [] content
 
 
+slideShow : Array.Array Slide
 slideShow =
     fromList
-        [ Simple "Elm Data" "James Porter"
-        , Simple "Follow Me" "@complexview"
-        , Simple "About that" "@complexview"
-        , Complex (asHtml """
+        [ Simple (asHtml """
+# Elm Data
+
+## James Porter
+
+Follow me @complexview
+""")
+        , WithCode (asHtml """
 # Hi there
 
 ## ho ho
 
 * you
 * are
-        """) (Just """
+        """) """
         Some example
         source code
         text...
         let's see
-        """)
+        """
         ]

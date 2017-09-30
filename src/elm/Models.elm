@@ -6,8 +6,8 @@ import Messages exposing (Msg)
 
 
 type Slide
-    = Simple String String
-    | Complex (Html Msg) (Maybe String)
+    = Simple (Html Msg)
+    | WithCode (Html Msg) String
 
 
 type Position

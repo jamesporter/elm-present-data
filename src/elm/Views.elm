@@ -39,13 +39,16 @@ viewSlide slide position =
     let
         containerStyle =
             [ ( "transform", transformSpec position ), ( "opacity", opacitySpec position ) ]
-    in
-        case slide of
-            Simple title secondary ->
-                div [ class "slide", style containerStyle ] [ h1 [] [ text title ], h2 [] [ text secondary ] ]
 
-            Complex content _ ->
-                div [ class "slide", style containerStyle ] [ content ]
+        content =
+            case slide of
+                Simple c ->
+                    c
+
+                WithCode c _ ->
+                    c
+    in
+        div [ class "slide", style containerStyle ] [ content ]
 
 
 transformSpec : Float -> String
