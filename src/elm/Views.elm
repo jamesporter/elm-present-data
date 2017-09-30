@@ -85,10 +85,10 @@ codeView presentation =
     in
         case code of
             Just code ->
-                div [ id "code", class "show" ] [ pre [] [ text code ] ]
+                div [ id "code" ] [ pre [] [ text code ] ]
 
             Nothing ->
-                div [ id "code" ] []
+                text ""
 
 
 widthSpec : Float -> String
