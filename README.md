@@ -14,7 +14,7 @@ elm-package install
 npm start
 ```
 * Open [http://localhost:8080/](http://localhost:8080/)
-* The main Elm file is `src/elm/Game.elm`
+* The main Elm file is `src/elm/Present.elm`
 * Will auto reload on changes
 
 
