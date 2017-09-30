@@ -7,3 +7,5 @@ import Keyboard exposing (KeyCode)
 type Msg
     = TimeUpdate Time
     | KeyDown KeyCode
+    | Next
+    | Previous

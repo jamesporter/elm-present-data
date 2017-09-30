@@ -2,6 +2,7 @@ module Views exposing (..)
 
 import Html exposing (Html, div, h1, h2, h3, pre, text)
 import Html.Attributes exposing (class, style, id)
+import Html.Events exposing (onClick)
 import Models exposing (Presentation, Slide(..), slides, progress)
 import Messages exposing (Msg(..))
 
@@ -14,8 +15,18 @@ view presentation =
     in
         div []
             ((List.map (\( s, p ) -> viewSlide s p) currentSlides)
-                ++ [ progressView presentation, codeView presentation ]
+                ++ [ progressView presentation, codeView presentation, prev, next ]
             )
+
+
+prev : Html Msg
+prev =
+    div [ id "prev", onClick Previous ] []
+
+
+next : Html Msg
+next =
+    div [ id "next", onClick Next ] []
 
 
 viewSlide : Slide -> Float -> Html Msg
