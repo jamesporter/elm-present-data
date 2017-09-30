@@ -23,6 +23,9 @@ update msg presentation =
         Previous ->
             ( prev presentation, Cmd.none )
 
+        ToggleCode ->
+            ( toggleCode presentation, Cmd.none )
+
 
 prev : Presentation -> Presentation
 prev presentation =
@@ -54,6 +57,11 @@ next presentation =
 
         Backward from to progress ->
             { presentation | position = Forward to from (1.0 - progress) }
+
+
+toggleCode : Presentation -> Presentation
+toggleCode presentation =
+    { presentation | showCode = not presentation.showCode }
 
 
 timeUpdate : Time -> Presentation -> Presentation
@@ -104,7 +112,7 @@ keyDown keyCode presentation =
 
         -- C
         67 ->
-            { presentation | showCode = not presentation.showCode }
+            toggleCode presentation
 
         _ ->
             presentation

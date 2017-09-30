@@ -9,3 +9,4 @@ type Msg
     | KeyDown KeyCode
     | Next
     | Previous
+    | ToggleCode

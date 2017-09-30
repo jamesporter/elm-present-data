@@ -15,7 +15,7 @@ view presentation =
     in
         div []
             ((List.map (\( s, p ) -> viewSlide s p) currentSlides)
-                ++ [ progressView presentation, codeView presentation, prev, next ]
+                ++ [ progressView presentation, codeView presentation, prev, next, codeControl ]
             )
 
 
@@ -27,6 +27,11 @@ prev =
 next : Html Msg
 next =
     div [ id "next", onClick Next ] []
+
+
+codeControl : Html Msg
+codeControl =
+    div [ id "codeControl", onClick ToggleCode ] []
 
 
 viewSlide : Slide -> Float -> Html Msg
