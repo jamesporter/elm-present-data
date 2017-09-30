@@ -1,7 +1,7 @@
 module Views exposing (..)
 
-import Html exposing (Html, div, h1, h2, text)
-import Html.Attributes exposing (class, style)
+import Html exposing (Html, div, h1, h2, h3, pre, text)
+import Html.Attributes exposing (class, style, id)
 import Models exposing (Presentation, Slide(..), slides, progress)
 import Messages exposing (Msg(..))
 
@@ -14,7 +14,7 @@ view presentation =
     in
         div []
             ((List.map (\( s, p ) -> viewSlide s p) currentSlides)
-                ++ [ progressView presentation ]
+                ++ [ progressView presentation, codeView presentation ]
             )
 
 
@@ -56,6 +56,17 @@ progressView presentation =
             widthSpec <| progress presentation
     in
         div [ class "progress-bar", style [ ( "width", width ) ] ] []
+
+
+codeView : Presentation -> Html Msg
+codeView presentation =
+    if presentation.showCode then
+        div [ id "code" ] [ pre [] [ text """test
+  that this
+    will work
+        """ ] ]
+    else
+        text ""
 
 
 widthSpec : Float -> String
