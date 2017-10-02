@@ -157,7 +157,7 @@ colour value =
 * Types: low level API expects strings
     * Could trivially create Float or Integer versions
     * But actually probably want both (and can be encapsulated)
-    * Slower to get started
+* Slower to get started
 
 """
         , simple """
