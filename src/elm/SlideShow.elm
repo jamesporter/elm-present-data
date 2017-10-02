@@ -33,6 +33,21 @@ slideShow =
 
 @complexview
 """
+        , simple """
+# Types of Data Vis
+
+* Exploratory
+* Static publication
+* Interactive (web?)
+"""
+        , simple """
+# Frameworks
+
+* Easy/simple (Chart.js)
+* Low level (D3?)
+* Balanced (Victory?)
+* No Framework (React, Elm)
+"""
         , withCode """
 # This is Elm
 
@@ -70,6 +85,10 @@ type Position
     = At Int
     | Forward Int Int Float
     | Backward Int Int Float
+
+Sub.batch <|
+    [ Keyboard.downs KeyDown
+    , AnimationFrame.diffs TimeUpdate ]
 """
         , simple """
 # SVG Primatives
