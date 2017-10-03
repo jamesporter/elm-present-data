@@ -39,6 +39,8 @@ slideShow =
 * Exploratory
 * Static publication
 * Interactive (web?)
+
+Only focusing on last one
 """
         , simple """
 # Frameworks
@@ -47,6 +49,10 @@ slideShow =
 * Low level (D3?)
 * Balanced (Victory?)
 * No Framework (React, Elm)
+""" , simple """
+# A few minutes
+
+If you already know Elm can learn enough to do interactive datavis
 """
         , withCode """
 # This is Elm
@@ -99,6 +105,8 @@ Sub.batch <|
 * ellipse
 * polygon
 * text_ (text tag, use text for content)
+
+Look these up details later, Elm has very direct support like for HTML.
         """
         , WithCode (container "SVG" [])
             """

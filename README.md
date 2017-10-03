@@ -1,6 +1,6 @@
 # elm-present-data
 
-An example of presenting data with Elm
+An example of presenting data with Elm. A mini tutorial (where the source code is the final part).
 
 ### Deps
 
@@ -43,22 +43,3 @@ choose alias
 target should appear as option if subdomain + s3 bucket name match
 
 will take a few minutes to actually work
-
-### Deploy with now
-
-Install if required:
-
-```
-npm i -g now
-```
-
-To actually deploy
-
-```
-cd dist
-now
-```
-
-### Alternative deployments
-
-Whatever option selected must ensure that serving from route as js url is relative to `/` i.e. treat `dist` as root.
