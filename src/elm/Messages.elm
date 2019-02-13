@@ -1,11 +1,11 @@
 module Messages exposing (Msg(..))
 
-import Keyboard exposing (Key)
+import Keyboard exposing (RawKey)
 
 
 type Msg
     = TimeUpdate Float
-    | KeyDown Key
+    | KeyDown RawKey
     | Next
     | Previous
     | ToggleCode

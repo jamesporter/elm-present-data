@@ -1,18 +1,21 @@
 module Present exposing (animationSubs, init, initialModel, main, subscriptions)
 
+import Browser
 import Browser.Events
+import Browser.Navigation as Nav
 import Html exposing (Html)
 import Keyboard
 import Messages exposing (Msg(..))
 import Models exposing (..)
 import SlideShow exposing (slideShow)
 import Updates exposing (..)
+import Url
 import Views exposing (view)
 
 
-main : Program Never Presentation Msg
+main : Program () Presentation Msg
 main =
-    Html.program
+    Browser.document
         { init = init
         , view = view
         , update = update
@@ -20,8 +23,8 @@ main =
         }
 
 
-init : ( Presentation, Cmd Msg )
-init =
+init : () -> ( Presentation, Cmd Msg )
+init flags =
     ( initialModel, Cmd.none )
 
 
@@ -52,4 +55,4 @@ animationSubs presentation =
             []
 
         _ ->
-            [ Events.onAnimationFrame.deltas TimeUpdate ]
+            [ Browser.Events.onAnimationFrameDelta TimeUpdate ]

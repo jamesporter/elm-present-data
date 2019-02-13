@@ -1,5 +1,6 @@
 module Views exposing (next, opacitySpec, prev, progressView, transformSpec, view, viewSlide, widthSpec)
 
+import Browser
 import Html exposing (Html, div, h1, h2, h3, pre, text)
 import Html.Attributes exposing (class, id, style)
 import Html.Events exposing (onClick)
@@ -7,16 +8,20 @@ import Messages exposing (Msg(..))
 import Models exposing (Presentation, Slide(..), getCodeForSlideIfAt, progress, slides)
 
 
-view : Presentation -> Html Msg
+view : Presentation -> Browser.Document Msg
 view presentation =
     let
         currentSlides =
             slides presentation
     in
-    div []
-        (List.map (\( s, p ) -> viewSlide s p) currentSlides
-            ++ [ progressView presentation, prev, next ]
-        )
+    { title = "Present"
+    , body =
+        [ div []
+            (List.map (\( s, p ) -> viewSlide s p) currentSlides
+                ++ [ progressView presentation, prev, next ]
+            )
+        ]
+    }
 
 
 prev : Html Msg
