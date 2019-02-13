@@ -1,10 +1,10 @@
-module Visuals exposing (..)
+module Visuals exposing (background, bar, circles, colour, container, data, enumerated, zip)
 
 import Html exposing (Html, div, h1)
 import Html.Attributes exposing (class)
-import Svg exposing (circle, line, path, rect, svg, text, text_, g)
-import Svg.Attributes exposing (d, dy, fill, fontSize, height, opacity, stroke, strokeWidth, textAnchor, viewBox, width, x, x1, x2, y, y1, y2, cx, cy, r)
 import Messages exposing (Msg)
+import Svg exposing (circle, g, line, path, rect, svg, text, text_)
+import Svg.Attributes exposing (cx, cy, d, dy, fill, fontSize, height, opacity, r, stroke, strokeWidth, textAnchor, viewBox, width, x, x1, x2, y, y1, y2)
 import Tuple exposing (first, second)
 
 
@@ -24,10 +24,10 @@ background =
         oneToNine =
             List.range 1 9
     in
-        g [ strokeWidth "0.4", stroke "white", opacity "0.6" ]
-            ((oneToNine |> List.map (\n -> line [ x1 (toString (10 * n)), x2 (toString (10 * n)), y1 "0", y2 "100" ] []))
-                ++ (oneToNine |> List.map (\n -> line [ y1 (toString (10 * n)), y2 (toString (10 * n)), x1 "0", x2 "100" ] []))
-            )
+    g [ strokeWidth "0.4", stroke "white", opacity "0.6" ]
+        ((oneToNine |> List.map (\n -> line [ x1 (String.fromInt (10 * n)), x2 (String.fromInt (10 * n)), y1 "0", y2 "100" ] []))
+            ++ (oneToNine |> List.map (\n -> line [ y1 (String.fromInt (10 * n)), y2 (String.fromInt (10 * n)), x1 "0", x2 "100" ] []))
+        )
 
 
 circles : Html Msg
@@ -39,18 +39,18 @@ circles =
             , ( "15", "red" )
             ]
     in
-        g [ opacity "0.8" ] <|
-            List.map
-                (\n ->
-                    circle
-                        [ cx "50"
-                        , cy "50"
-                        , r (first n)
-                        , fill (second n)
-                        ]
-                        []
-                )
-                specs
+    g [ opacity "0.8" ] <|
+        List.map
+            (\n ->
+                circle
+                    [ cx "50"
+                    , cy "50"
+                    , r (first n)
+                    , fill (second n)
+                    ]
+                    []
+            )
+            specs
 
 
 data : Bool -> Html Msg
@@ -67,29 +67,30 @@ data withColours =
             List.length calories
 
         dx =
-            90.0 / (toFloat len)
+            90.0 / toFloat len
 
         sx =
             5.0
     in
-        g [ opacity "0.8" ] <|
-            List.map
-                (\( idx, c ) ->
-                    bar c (sx + dx * toFloat (idx)) dx withColours
-                )
-                caloriesWithIndex
+    g [ opacity "0.8" ] <|
+        List.map
+            (\( idx, c ) ->
+                bar c (sx + dx * toFloat idx) dx withColours
+            )
+            caloriesWithIndex
 
 
 bar : Int -> Float -> Float -> Bool -> Html Msg
 bar value sx dx withColours =
     rect
-        [ x (toString sx)
-        , y (toString ((toFloat (1000 - value)) / 10.0))
-        , height (toString ((toFloat (value)) / 10.0))
-        , width (toString (dx - 2.0))
+        [ x (String.fromFloat sx)
+        , y (String.fromFloat (toFloat (1000 - value) / 10.0))
+        , height (String.fromFloat (toFloat value / 10.0))
+        , width (String.fromFloat (dx - 2.0))
         , fill
             (if withColours then
-                (colour value)
+                colour value
+
              else
                 "#64B5CA"
             )
@@ -101,21 +102,23 @@ colour : Int -> String
 colour value =
     if value < 400 then
         "#CA6464"
+
     else if value < 550 then
         "#64B5CA"
+
     else
         "#64CA7A"
 
 
 zip : List a -> List b -> List ( a, b )
 zip =
-    List.map2 (,)
+    List.map2 (\a b -> ( a, b ))
 
 
 enumerated : List a -> List ( Int, a )
 enumerated list =
     let
         indexes =
-            List.range 0 ((List.length list) - 1)
+            List.range 0 (List.length list - 1)
     in
-        zip indexes list
+    zip indexes list

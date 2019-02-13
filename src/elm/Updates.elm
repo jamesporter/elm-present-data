@@ -1,11 +1,11 @@
-module Updates exposing (..)
+module Updates exposing (fastForward, keyDown, next, prev, timeUpdate, update)
 
-import Models exposing (Presentation, Position(..), Slide(..))
-import Time exposing (Time)
-import Keyboard exposing (KeyCode)
-import Messages exposing (Msg(..))
 import Array exposing (length)
+import Keyboard exposing (Key(..))
+import Messages exposing (Msg(..))
+import Models exposing (Position(..), Presentation, Slide(..))
 import Platform.Cmd
+import Time exposing (Posix)
 
 
 update : Msg -> Presentation -> ( Presentation, Cmd Msg )
@@ -14,8 +14,8 @@ update msg presentation =
         TimeUpdate dt ->
             ( timeUpdate dt presentation, Cmd.none )
 
-        KeyDown keyCode ->
-            ( keyDown keyCode presentation, Cmd.none )
+        KeyDown key ->
+            ( keyDown key presentation, Cmd.none )
 
         Next ->
             ( next presentation, Cmd.none )
@@ -33,6 +33,7 @@ prev presentation =
         At n ->
             if n > 0 then
                 { presentation | position = Backward n (n - 1) 0.0, showCode = False }
+
             else
                 presentation
 
@@ -49,6 +50,7 @@ next presentation =
         At n ->
             if n + 1 < length presentation.slides then
                 { presentation | position = Forward n (n + 1) 0.0, showCode = False }
+
             else
                 presentation
 
@@ -65,6 +67,7 @@ fastForward presentation =
         At n ->
             if n + 5 < length presentation.slides then
                 { presentation | position = At (n + 5) }
+
             else
                 { presentation | position = At (length presentation.slides - 1) }
 
@@ -77,58 +80,53 @@ toggleCode presentation =
     { presentation | showCode = not presentation.showCode }
 
 
-timeUpdate : Time -> Presentation -> Presentation
+timeUpdate : Float -> Presentation -> Presentation
 timeUpdate time presentation =
     let
         ds =
-            2.0 * Time.inSeconds time
+            2.0 * time
     in
-        case presentation.position of
-            At n ->
-                presentation
+    case presentation.position of
+        At n ->
+            presentation
 
-            Forward from to progress ->
-                let
-                    newProgress =
-                        progress + ds
-                in
-                    if newProgress > 1.0 then
-                        { presentation | position = At to }
-                    else
-                        { presentation | position = Forward from to newProgress }
+        Forward from to progress ->
+            let
+                newProgress =
+                    progress + ds
+            in
+            if newProgress > 1.0 then
+                { presentation | position = At to }
 
-            Backward from to progress ->
-                let
-                    newProgress =
-                        progress + ds
-                in
-                    if newProgress > 1.0 then
-                        { presentation | position = At to }
-                    else
-                        { presentation | position = Backward from to newProgress }
+            else
+                { presentation | position = Forward from to newProgress }
+
+        Backward from to progress ->
+            let
+                newProgress =
+                    progress + ds
+            in
+            if newProgress > 1.0 then
+                { presentation | position = At to }
+
+            else
+                { presentation | position = Backward from to newProgress }
 
 
-keyDown : KeyCode -> Presentation -> Presentation
-keyDown keyCode presentation =
-    case keyCode of
+keyDown : Key -> Presentation -> Presentation
+keyDown key presentation =
+    case key of
         -- Left
-        37 ->
+        ArrowLeft ->
             prev presentation
 
         -- Right
-        39 ->
+        ArrowRight ->
             next presentation
 
         -- Esc
-        27 ->
+        Escape ->
             { presentation | position = At 0 }
-
-        -- C
-        67 ->
-            toggleCode presentation
-
-        13 ->
-            fastForward presentation
 
         _ ->
             presentation

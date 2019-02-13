@@ -1,10 +1,10 @@
-module SlideShow exposing (..)
+module SlideShow exposing (asHtml, simple, slideShow, withCode)
 
-import Models exposing (Slide(..))
 import Array exposing (fromList)
 import Html exposing (Html, div, h1, h2, text)
 import Markdown exposing (toHtml)
 import Messages exposing (Msg)
+import Models exposing (Slide(..))
 import Visuals exposing (..)
 
 
@@ -49,7 +49,8 @@ Only focusing on last one
 * Low level (D3?)
 * Balanced (Victory?)
 * No Framework (React, Elm)
-""" , simple """
+"""
+        , simple """
 # A few minutes
 
 If you already know Elm can learn enough to do interactive datavis
@@ -143,7 +144,7 @@ in
             )
             specs
 """
-        , WithCode (container "Data" [ background, (data False) ]) """
+        , WithCode (container "Data" [ background, data False ]) """
 calories =
     [ 349, 370, 488, 641, 672, 518, 832 ]
 
@@ -162,7 +163,7 @@ bar value sx dx withColours =
         ]
         []
 """
-        , WithCode (container "Data II" [ background, (data True) ]) """
+        , WithCode (container "Data II" [ background, data True ]) """
 colour : Int -> String
 colour value =
     if value < 400 then

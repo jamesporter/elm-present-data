@@ -1,13 +1,13 @@
-module Present exposing (..)
+module Present exposing (animationSubs, init, initialModel, main, subscriptions)
 
+import Browser.Events
 import Html exposing (Html)
-import Models exposing (..)
-import Updates exposing (..)
-import Messages exposing (Msg(..))
-import Views exposing (view)
-import AnimationFrame
 import Keyboard
+import Messages exposing (Msg(..))
+import Models exposing (..)
 import SlideShow exposing (slideShow)
+import Updates exposing (..)
+import Views exposing (view)
 
 
 main : Program Never Presentation Msg
@@ -42,7 +42,7 @@ subscriptions presentation =
     Sub.batch <|
         [ Keyboard.downs KeyDown
         ]
-            ++ (animationSubs presentation)
+            ++ animationSubs presentation
 
 
 animationSubs : Presentation -> List (Sub Msg)
@@ -52,4 +52,4 @@ animationSubs presentation =
             []
 
         _ ->
-            [ AnimationFrame.diffs TimeUpdate ]
+            [ Events.onAnimationFrame.deltas TimeUpdate ]
