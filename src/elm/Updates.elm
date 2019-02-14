@@ -1,7 +1,8 @@
 module Updates exposing (fastForward, keyDown, next, prev, timeUpdate, update)
 
 import Array exposing (length)
-import Keyboard exposing (Key(..))
+import Debug
+import Keyboard exposing (RawKey(..))
 import Messages exposing (Msg(..))
 import Models exposing (Position(..), Presentation, Slide(..))
 import Platform.Cmd
@@ -113,19 +114,23 @@ timeUpdate time presentation =
                 { presentation | position = Backward from to newProgress }
 
 
-keyDown : Key -> Presentation -> Presentation
+keyDown : RawKey -> Presentation -> Presentation
 keyDown key presentation =
-    case key of
+    let
+        _ =
+            Debug.log "key:" key
+    in
+    case Keyboard.rawValue key of
         -- Left
-        ArrowLeft ->
+        "ArrowLeft" ->
             prev presentation
 
         -- Right
-        ArrowRight ->
+        "ArrowRight" ->
             next presentation
 
         -- Esc
-        Escape ->
+        "Escape" ->
             { presentation | position = At 0 }
 
         _ ->
