@@ -85,7 +85,7 @@ timeUpdate : Float -> Presentation -> Presentation
 timeUpdate time presentation =
     let
         ds =
-            2.0 * time
+            0.002 * time
     in
     case presentation.position of
         At n ->
